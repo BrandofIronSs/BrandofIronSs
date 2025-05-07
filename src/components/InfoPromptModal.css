@@ -1,0 +1,135 @@
+/* InfoPromptModal.css - Styling for the information prompt modal */
+
+.info-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+.info-prompt-container {
+  width: 90%;
+  max-width: 500px;
+  background-color: rgba(30, 10, 10, 0.95);
+  border: 2px solid var(--rust-orange);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(74, 0, 0, 0.7), inset 0 0 15px rgba(74, 0, 0, 0.5);
+  color: var(--parchment);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  animation: promptFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes promptFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.info-prompt-header {
+  background-color: rgba(40, 15, 15, 0.9);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--blood-red);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.info-prompt-header h2 {
+  font-family: var(--font-thematic);
+  font-size: 1.4rem;
+  color: var(--burned-parchment);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-prompt-header h2 svg {
+  color: var(--rust-orange);
+}
+
+.close-modal-button {
+  background: none;
+  border: none;
+  color: var(--rust-orange);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 5px;
+}
+
+.close-modal-button:hover {
+  color: var(--blood-red);
+}
+
+.info-prompt-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-prompt-message {
+  font-size: 1.1rem;
+  color: var(--parchment);
+  margin-bottom: 24px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.info-prompt-button {
+  background-color: rgba(74, 0, 0, 0.7);
+  border: 1px solid var(--rust-orange);
+  border-radius: 4px;
+  padding: 10px 24px;
+  color: var(--parchment);
+  font-family: var(--font-thematic);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.info-prompt-button:hover {
+  background-color: rgba(117, 0, 0, 0.8);
+  border-color: var(--parchment);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .info-prompt-container {
+    width: 95%;
+  }
+  
+  .info-prompt-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .info-prompt-message {
+    font-size: 1rem;
+  }
+} 

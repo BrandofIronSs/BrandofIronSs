@@ -1,0 +1,138 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+  background-color: var(--dark-black);
+  border: 2px solid var(--blood-red);
+  border-radius: 5px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0 0 15px rgba(74, 0, 0, 0.7);
+  animation: modalFadeIn 0.3s ease;
+}
+
+.player-profile-modal {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="transparent"/><path d="M0 0L100 100M100 0L0 100" stroke="rgba(74,0,0,0.1)" stroke-width="0.5"/></svg>');
+  background-repeat: repeat;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--rust-orange);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close-button:hover {
+  color: var(--blood-red);
+  transform: scale(1.1);
+}
+
+.modal-title {
+  font-family: var(--font-thematic);
+  font-size: 1.8rem;
+  color: var(--parchment);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  text-shadow: 0 0 5px rgba(74, 0, 0, 0.7);
+  border-bottom: 1px solid var(--blood-red);
+  padding-bottom: 0.5rem;
+}
+
+.modal-body {
+  font-family: var(--font-old-print);
+  color: var(--burned-parchment);
+  line-height: 1.5;
+}
+
+.profile-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px dashed var(--rust-orange);
+  border-radius: 5px;
+  background-color: rgba(33, 33, 33, 0.5);
+}
+
+.profile-icon {
+  font-size: 3rem;
+  color: var(--parchment);
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.profile-title {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  color: var(--rust-orange);
+  margin: 0;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scrollbar styling */
+.modal-content::-webkit-scrollbar {
+  width: 5px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(33, 33, 33, 0.3);
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background-color: var(--rust-orange);
+  border-radius: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+    max-height: 90vh;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+} 

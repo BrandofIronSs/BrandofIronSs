@@ -1,0 +1,578 @@
+import { useState, useEffect, useRef } from 'react'
+import IntroPage from './pages/IntroPage'
+import GamePage from './pages/GamePage'
+import { createMercenaryInstance } from './gameData/mercenaries'
+import { recipeDefinitions, determineQuality, getRecipeById } from './gameData/recipes'
+import { createItemInstance } from './gameData/items'
+import './App.css'
+
+// Main App component that manages the current page state
+function App() {
+  // Page state
+  const [currentPage, setCurrentPage] = useState('intro')
+  
+  // Ref for BleakExpanse component
+  const bleakExpanseRef = useRef(null);
+  
+  // Core resources
+  const [vitaeEssence, setVitaeEssence] = useState(200)
+  const [behelitShard, setBehelitShard] = useState(10)
+  const [berserkBoiCurrency, setBerserkBoiCurrency] = useState(15)
+  const [gold, setGold] = useState(100)
+  const [echoes, setEchoes] = useState(10)
+  
+  // Mercenary state
+  const [playerMercenaries, setPlayerMercenaries] = useState([])
+  const [selectedMercId, setSelectedMercId] = useState(null)
+  
+  // Iron Forge state
+  const [knownRecipes, setKnownRecipes] = useState(() => 
+    recipeDefinitions.filter(r => r.unlocked)
+  );
+  
+  const [craftingQueue, setCraftingQueue] = useState([]);
+  
+  // Initialize starting mercenaries when the component mounts
+  useEffect(() => {
+    // Initialize starting mercenaries only once on component mount
+    if (playerMercenaries.length === 0) {
+      console.log("Initializing starting mercenaries...");
+      const startingMercs = [
+        createMercenaryInstance('merc_guts_grunt'), // Create one Grunt
+        createMercenaryInstance('merc_nimble_rogue') // Create one Rogue
+        // Add more starting mercs here if desired, e.g., createMercenaryInstance('merc_hedge_mage')
+      ].filter(merc => merc !== null); // Ensure no nulls if IDs were wrong
+
+      setPlayerMercenaries(startingMercs);
+    }
+  }, []); // Empty dependency array ensures this runs only once
+  
+  // Function to update a specific mercenary's data
+  const updateMercenary = (mercInstanceId, updates) => {
+    setPlayerMercenaries(prevMercs => 
+      prevMercs.map(merc => 
+        merc.instanceId === mercInstanceId 
+          ? { ...merc, ...updates } 
+          : merc
+      )
+    );
+  };
+  
+  // Function to add experience to the selected mercenary
+  const addExperienceToSelectedMerc = (amount) => {
+    if (!selectedMercId) {
+      console.warn("DEV: No mercenary selected to add XP to.");
+      return;
+    }
+    
+    // Find the current mercenary
+    const mercenary = playerMercenaries.find(merc => merc.instanceId === selectedMercId);
+    if (!mercenary) {
+      console.warn(`DEV: Mercenary with ID ${selectedMercId} not found.`);
+      return;
+    }
+    
+    // Add XP to the mercenary
+    updateMercenary(selectedMercId, { 
+      xp: mercenary.xp + amount 
+    });
+    
+    console.log(`DEV: Added ${amount} XP to mercenary ${selectedMercId}`);
+  };
+  
+  // Function to update resources (for both regular game and developer tools)
+  const updateResource = (resourceId, amount) => {
+    switch (resourceId) {
+      case 'gold':
+        setGold(prev => Math.max(0, prev + amount));
+        break;
+      case 'vitae_essence':
+        setVitaeEssence(prev => Math.max(0, prev + amount));
+        break;
+      case 'behelit_shard':
+        setBehelitShard(prev => Math.max(0, prev + amount));
+        break;
+      case 'echoes':
+        setEchoes(prev => Math.max(0, prev + amount));
+        break;
+      case 'berserkBoiCurrency':
+        setBerserkBoiCurrency(prev => Math.max(0, prev + amount));
+        break;
+      default:
+        console.warn(`Unknown resource: ${resourceId}`);
+    }
+    console.log(`Updated ${resourceId} by ${amount}`);
+  };
+  
+  // Function to remove items from the stash
+  const removeItemsFromStash = (itemsToRemove) => {
+    setStashItems(prevItems => {
+      // Create a copy of the current inventory
+      const updatedItems = [...prevItems];
+      
+      // Process each item to remove
+      itemsToRemove.forEach(itemToRemove => {
+        // If we're removing by instanceId (for equipment/unique items)
+        if (itemToRemove.instanceId) {
+          // Find the item in the stash by instanceId
+          const existingItemIndex = updatedItems.findIndex(item => 
+            item.instanceId === itemToRemove.instanceId
+          );
+          
+          if (existingItemIndex !== -1) {
+            // Remove the specific instance
+            updatedItems.splice(existingItemIndex, 1);
+          }
+        } else {
+          // Standard removal by id for stackable items
+          // Find the item in the stash
+          const existingItemIndex = updatedItems.findIndex(item => item.id === itemToRemove.id);
+          
+          if (existingItemIndex !== -1) {
+            const currentItem = updatedItems[existingItemIndex];
+            
+            // Calculate new quantity
+            const newQuantity = currentItem.quantity - itemToRemove.quantity;
+            
+            if (newQuantity <= 0) {
+              // Remove the item entirely if quantity is zero or negative
+              updatedItems.splice(existingItemIndex, 1);
+            } else {
+              // Update quantity if still positive
+              updatedItems[existingItemIndex] = {
+                ...currentItem,
+                quantity: newQuantity
+              };
+            }
+          }
+        }
+      });
+      
+      return updatedItems;
+    });
+  };
+  
+  // Stash items - array of inventory items
+  const [stashItems, setStashItems] = useState([
+    { id: 'wood', name: 'Wood', quantity: 150, icon: '🪵', type: 'Material', color: '#8b4513' },
+    { id: 'iron_ore', name: 'Iron Ore', quantity: 10, icon: '⛏️', type: 'Material', color: '#c0c0c0' },
+    { id: 'steel_ingot', name: 'Steel Ingot', quantity: 5, icon: '🧱', type: 'Material', color: '#a8a8a8' },
+    { id: 'leather', name: 'Leather', quantity: 8, icon: '🧶', type: 'Material', color: '#8b6b4b' },
+    { id: 'herbs', name: 'Herbs', quantity: 200, icon: '🌿', type: 'Material', color: '#3cb371' },
+    { id: 'magic_crystal', name: 'Magic Crystal', quantity: 30, icon: '💎', type: 'Material', color: '#9370db' },
+    { id: 'karma', name: 'Karma', quantity: 15, icon: '👑', type: 'Special', color: '#4682b4' },
+    { id: 'rusty_dagger', name: 'Rusty Dagger', quantity: 1, icon: '🗡️', type: 'Weapon', color: '#8b0000' },
+    { id: 'torn_cloak', name: 'Torn Cloak', quantity: 1, icon: '👘', type: 'Armor', color: '#556b2f' },
+    { id: 'blood_vial', name: 'Blood Vial', quantity: 3, icon: '🧪', type: 'Consumable', color: '#800000' },
+    // Equipment items - added directly
+    { 
+      id: 'iron_sword',
+      instanceId: 'eq_sword_01',
+      name: 'Iron Sword',
+      description: 'A standard iron sword. Reliable if unexceptional.',
+      icon: '⚔️',
+      type: 'Weapon',
+      subType: 'Sword',
+      quality: 'Common',
+      stats: {
+        strength: 5,
+        agility: 2
+      },
+      value: 50,
+      color: '#a8a8a8'
+    },
+    { 
+      id: 'steel_blade',
+      instanceId: 'eq_sword_02',
+      name: 'Steel Blade',
+      description: 'A finely crafted steel sword with a sharper edge.',
+      icon: '⚔️',
+      type: 'Weapon',
+      subType: 'Sword',
+      quality: 'Sturdy',
+      stats: {
+        strength: 8,
+        agility: 3
+      },
+      value: 120,
+      color: '#c0c0c0'
+    },
+    { 
+      id: 'leather_armor',
+      instanceId: 'eq_armor_01',
+      name: 'Leather Armor',
+      description: 'Basic protective gear made from tanned hides.',
+      icon: '🥋',
+      type: 'Armor',
+      subType: 'Chest',
+      quality: 'Common',
+      stats: {
+        strength: 1,
+        agility: 3
+      },
+      value: 40,
+      color: '#8b6b4b'
+    },
+    { 
+      id: 'iron_helmet',
+      instanceId: 'eq_armor_02',
+      name: 'Iron Helmet',
+      description: 'A sturdy iron helmet that offers decent head protection.',
+      icon: '⛑️',
+      type: 'Armor',
+      subType: 'Head',
+      quality: 'Common',
+      stats: {
+        strength: 2,
+        willpower: 1
+      },
+      value: 35,
+      color: '#a8a8a8'
+    },
+    { 
+      id: 'lucky_charm',
+      instanceId: 'eq_acc_01',
+      name: 'Lucky Charm',
+      description: 'A trinket that seems to bring good fortune to its bearer.',
+      icon: '🍀',
+      type: 'Accessory',
+      subType: 'Trinket',
+      quality: 'Common',
+      stats: {
+        willpower: 4
+      },
+      value: 25,
+      color: '#3cb371'
+    },
+    { 
+      id: 'silver_ring',
+      instanceId: 'eq_acc_02',
+      name: 'Silver Ring',
+      description: 'A simple silver ring with a faint magical aura.',
+      icon: '💍',
+      type: 'Accessory',
+      subType: 'Ring',
+      quality: 'Sturdy',
+      stats: {
+        willpower: 3,
+        agility: 2
+      },
+      value: 60,
+      color: '#c0c0c0'
+    }
+  ])
+  
+  // Function to add items to the stash
+  const addItemsToStash = (itemsToAdd) => {
+    console.log('Adding items to stash:', itemsToAdd);
+    
+    setStashItems(prevItems => {
+      // Create a copy of the current inventory
+      const updatedItems = [...prevItems];
+      
+      // Process each item to add
+      itemsToAdd.forEach(newItem => {
+        // Check if item already exists in inventory
+        const existingItemIndex = updatedItems.findIndex(item => item.id === newItem.id);
+        
+        if (existingItemIndex !== -1) {
+          // If it exists, update the quantity
+          updatedItems[existingItemIndex] = {
+            ...updatedItems[existingItemIndex],
+            quantity: updatedItems[existingItemIndex].quantity + newItem.quantity
+          };
+          console.log(`Updated item ${newItem.id}, new quantity: ${updatedItems[existingItemIndex].quantity}`);
+        } else {
+          // If it doesn't exist, add it as a new item
+          updatedItems.push(newItem);
+          console.log(`Added new item ${newItem.id} with quantity ${newItem.quantity}`);
+        }
+      });
+      
+      console.log('Updated stash:', updatedItems);
+      return updatedItems;
+    });
+  };
+  
+  // Function to add resources (for developer tools)
+  const addResource = (resourceId, amount) => {
+    switch (resourceId) {
+      case 'gold':
+        setGold(prev => prev + amount);
+        break;
+      case 'vitae_essence':
+        setVitaeEssence(prev => prev + amount);
+        break;
+      case 'behelit_shard':
+        setBehelitShard(prev => prev + amount);
+        break;
+      case 'echoes':
+        setEchoes(prev => prev + amount);
+        break;
+      case 'berserkBoiCurrency':
+        setBerserkBoiCurrency(prev => prev + amount);
+        break;
+      default:
+        console.warn(`Unknown resource: ${resourceId}`);
+    }
+    console.log(`DEV: Added ${amount} ${resourceId}`);
+  };
+  
+  // Helper functions for adding crafting materials (for developer tools)
+  const addIronOre = (amount) => {
+    addItemsToStash([{ 
+      id: 'iron_ore', 
+      name: 'Iron Ore', 
+      icon: '⛏️', 
+      type: 'Material', 
+      quantity: amount 
+    }]);
+    console.log(`DEV: Added ${amount} Iron Ore`);
+  };
+  
+  const addSteelIngot = (amount) => {
+    addItemsToStash([{ 
+      id: 'steel_ingot', 
+      name: 'Steel Ingot', 
+      icon: '🧱', 
+      type: 'Material', 
+      quantity: amount 
+    }]);
+    console.log(`DEV: Added ${amount} Steel Ingot`);
+  };
+  
+  const addLeather = (amount) => {
+    addItemsToStash([{ 
+      id: 'leather', 
+      name: 'Leather', 
+      icon: '🧶', 
+      type: 'Material', 
+      quantity: amount 
+    }]);
+    console.log(`DEV: Added ${amount} Leather`);
+  };
+  
+  const addWood = (amount) => {
+    addItemsToStash([{ 
+      id: 'wood', 
+      name: 'Wood', 
+      icon: '🪵', 
+      type: 'Material', 
+      quantity: amount 
+    }]);
+    console.log(`DEV: Added ${amount} Wood`);
+  };
+  
+  // Function to finish exploration immediately (for developer tools)
+  const finishExplorationNow = () => {
+    if (bleakExpanseRef.current) {
+      bleakExpanseRef.current.forceComplete();
+    } else {
+      console.log('DEV: BleakExpanse component not accessible');
+    }
+  };
+  
+  // Function to hire a new mercenary
+  const hireMercenary = (definitionId) => {
+    const newMerc = createMercenaryInstance(definitionId);
+    if (newMerc) {
+      setPlayerMercenaries(prevMercs => [...prevMercs, newMerc]);
+      return true;
+    }
+    return false;
+  };
+  
+  // Function to dismiss a mercenary
+  const dismissMercenary = (instanceId) => {
+    setPlayerMercenaries(prevMercs => 
+      prevMercs.filter(merc => merc.instanceId !== instanceId)
+    );
+  };
+  
+  // Core stats for The Bleeding Heart
+  const [sanctumIntegrity, setSanctumIntegrity] = useState(75)
+  const [maxSanctumIntegrity, setMaxSanctumIntegrity] = useState(100)
+  const [collectiveConsciousness, setCollectiveConsciousness] = useState(60)
+  
+  // Upgrade modifiers
+  const [maxIntegrityBonus, setMaxIntegrityBonus] = useState(0)
+  const [decayRateModifier, setDecayRateModifier] = useState(1)
+  
+  // Threat management
+  const [currentThreatLevel, setCurrentThreatLevel] = useState(0)
+  const [activeThreat, setActiveThreat] = useState(null)
+  const [isWarded, setIsWarded] = useState(false)
+  
+  // Possible threats for the sanctuary
+  const possibleThreats = [
+    "The Abyss Gazes Back",
+    "Whispering Madness",
+    "Psychic Drain",
+    "Looming Dread",
+    "Shadow Encroachment"
+  ]
+  
+  // Handler function to switch from intro page to game page
+  const handleStartGame = () => {
+    setCurrentPage('game')
+  }
+  
+  // Decay mechanic for The Bleeding Heart
+  useEffect(() => {
+    if (currentPage !== 'game') return
+    
+    const decayInterval = setInterval(() => {
+      // Apply decay based on current values and modifiers
+      const integrityDecayRate = (0.2 * decayRateModifier) * (isWarded ? 0.5 : 1)
+      const consciousnessDecayRate = (0.3 * decayRateModifier) * (isWarded ? 0.7 : 1)
+      
+      // Update state with decay
+      setSanctumIntegrity(prev => Math.max(0, prev - integrityDecayRate))
+      setCollectiveConsciousness(prev => Math.max(0, prev - consciousnessDecayRate))
+      
+      // Process threat generation
+      if (!isWarded && !activeThreat) {
+        processThreatGeneration()
+      }
+      
+      // Apply active threat effects
+      if (activeThreat && !isWarded) {
+        applyThreatEffects()
+      }
+      
+    }, 5000) // Decay occurs every 5 seconds
+    
+    return () => clearInterval(decayInterval)
+  }, [
+    currentPage, 
+    decayRateModifier, 
+    isWarded, 
+    activeThreat,
+    sanctumIntegrity,
+    collectiveConsciousness
+  ])
+  
+  // Function to handle threat generation
+  const processThreatGeneration = () => {
+    // Base chance of threat is 5% per cycle, increased when integrity or consciousness is low
+    const integrityFactor = (1 - (sanctumIntegrity / maxSanctumIntegrity)) * 0.1
+    const consciousnessFactor = (1 - (collectiveConsciousness / 100)) * 0.1
+    const baseThreatChance = 0.05 + integrityFactor + consciousnessFactor
+    
+    if (Math.random() < baseThreatChance) {
+      // Generate a random threat
+      const randomThreatIndex = Math.floor(Math.random() * possibleThreats.length)
+      setActiveThreat(possibleThreats[randomThreatIndex])
+      setCurrentThreatLevel(Math.floor(Math.random() * 3) + 1) // 1-3 threat level
+    }
+  }
+  
+  // Function to apply effects of active threats
+  const applyThreatEffects = () => {
+    // Different effects based on the threat and its level
+    const threatLevel = currentThreatLevel
+    
+    switch (activeThreat) {
+      case "The Abyss Gazes Back":
+        // Rapidly drains collective consciousness
+        setCollectiveConsciousness(prev => Math.max(0, prev - (0.5 * threatLevel)))
+        break
+      case "Whispering Madness":
+        // Reduces integrity
+        setSanctumIntegrity(prev => Math.max(0, prev - (0.3 * threatLevel)))
+        break
+      case "Psychic Drain":
+        // Drains both integrity and consciousness
+        setSanctumIntegrity(prev => Math.max(0, prev - (0.2 * threatLevel)))
+        setCollectiveConsciousness(prev => Math.max(0, prev - (0.2 * threatLevel)))
+        break
+      case "Looming Dread":
+        // Slows resource generation (would affect other modules)
+        // Just damage consciousness for now
+        setCollectiveConsciousness(prev => Math.max(0, prev - (0.3 * threatLevel)))
+        break
+      case "Shadow Encroachment":
+        // Increases decay rate temporarily
+        setSanctumIntegrity(prev => Math.max(0, prev - (0.4 * threatLevel)))
+        break
+      default:
+        break
+    }
+  }
+  
+  // Update maxSanctumIntegrity when maxIntegrityBonus changes
+  useEffect(() => {
+    setMaxSanctumIntegrity(100 + maxIntegrityBonus)
+  }, [maxIntegrityBonus])
+  
+  // Function to unlock a recipe
+  const unlockRecipe = (recipeId) => {
+    // Check if recipe is already known
+    if (knownRecipes.some(recipe => recipe.id === recipeId)) {
+      console.log(`Recipe ${recipeId} is already unlocked.`);
+      return;
+    }
+    
+    // Find the recipe in the definitions
+    const recipeToUnlock = recipeDefinitions.find(r => r.id === recipeId);
+    if (!recipeToUnlock) {
+      console.error(`Recipe with ID ${recipeId} not found.`);
+      return;
+    }
+    
+    // Add the recipe to known recipes
+    setKnownRecipes(prev => [...prev, recipeToUnlock]);
+    console.log(`Recipe ${recipeId} has been unlocked!`);
+  };
+  
+  // Start crafting a recipe
+  const startCrafting = (recipeId) => {
+    // Find the recipe
+    const recipe = getRecipeById(recipeId);
+    if (!recipe) {
+      console.error(`Recipe with ID ${recipeId} not found.`);
+      return false;
+    }
+    
+    console.log(`Attempting to craft ${recipe.productItemId} using recipe ${recipeId}`);
+    console.log('Required materials:', recipe.materials);
+    console.log('Current stash items:', stashItems);
+    
+    // Check if player has required materials
+    const hasMaterials = recipe.materials.every(material => {
+      const playerMaterial = stashItems.find(item => item.id === material.itemId);
+      const hasEnough = playerMaterial && playerMaterial.quantity >= material.quantity;
+      
+      console.log(`Material check in App: ${material.itemId} (need: ${material.quantity}, have: ${playerMaterial ? playerMaterial.quantity : 0}, enough: ${hasEnough})`);
+      return hasEnough;
+    });
+    
+    if (!hasMaterials) {
+      console.log('Not enough materials for this recipe.');
+      return false;
+    }
+    
+    // Remove materials from player's stash
+    removeItemsFromStash(
+      recipe.materials.map(material => ({
+        id: material.itemId,
+        quantity: material.quantity
+      }))
+    );
+    
+    // Add task to crafting queue
+    const taskId = crypto.randomUUID();
+    const endTime = Date.now() + (recipe.craftingTime * 1000); // Convert seconds to milliseconds
+    
+    setCraftingQueue(prev => [
+      ...prev,
+      { taskId, recipeId, endTime }
+    ]);
+    
+    console.log(`Started crafting ${recipe.productItemId} with task ID ${taskId}`);
+    return true;
+  };
+  
+  // Add a log entry (simple console.log for now - could be expanded to a UI log)
+  const addLogEntry = (message) => {
+    console.log(`

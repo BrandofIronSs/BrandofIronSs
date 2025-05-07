@@ -1,0 +1,81 @@
+/* Styles for the Back Button */
+.back-button {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  z-index: 50; /* Higher than other elements */
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
+.back-button-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--blood-red);
+  border: 2px solid var(--rust-orange);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7), 
+              inset 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.back-icon {
+  color: var(--dark-black);
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover effects */
+.back-button:hover .back-button-content {
+  transform: scale(1.1);
+  background-color: var(--rust-orange);
+}
+
+.back-button:hover .back-icon {
+  color: var(--parchment);
+  transform: scale(1.2) rotate(90deg);
+}
+
+/* Active/pressed state */
+.back-button:active .back-button-content {
+  transform: scale(0.9);
+}
+
+/* Tooltip on hover */
+.back-button::after {
+  content: attr(title);
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dark-black);
+  color: var(--parchment);
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  font-family: var(--font-thematic);
+}
+
+.back-button:hover::after {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .back-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .back-icon {
+    font-size: 1.2rem;
+  }
+} 

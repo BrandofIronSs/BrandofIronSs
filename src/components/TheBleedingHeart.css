@@ -1,0 +1,1005 @@
+/* Main container for the module */
+.bleeding-heart-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: rgba(10, 10, 10, 0.9);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="100%" height="100%" fill="transparent"/><path d="M0 0L200 200M200 0L0 200" stroke="rgba(74,0,0,0.1)" stroke-width="1"/></svg>');
+  background-repeat: repeat;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(74, 0, 0, 0.5) rgba(20, 20, 20, 0.5);
+}
+
+/* Blood veins effect in the background */
+.blood-veins {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.vein {
+  position: absolute;
+  background-color: rgba(74, 0, 0, 0.4);
+  transform-origin: bottom center;
+  animation: pulse-vein 8s infinite alternate ease-in-out;
+}
+
+.vein-1 {
+  width: 3px;
+  height: 30%;
+  top: 0;
+  left: 20%;
+  transform: rotate(-5deg);
+}
+
+.vein-2 {
+  width: 2px;
+  height: 40%;
+  top: 10%;
+  right: 25%;
+  transform: rotate(8deg);
+}
+
+.vein-3 {
+  width: 4px;
+  height: 25%;
+  bottom: 10%;
+  left: 30%;
+  transform: rotate(15deg);
+}
+
+.vein-4 {
+  width: 3px;
+  height: 35%;
+  bottom: 5%;
+  right: 15%;
+  transform: rotate(-10deg);
+}
+
+@keyframes pulse-vein {
+  0% {
+    opacity: 0.3;
+    filter: blur(1px);
+  }
+  50% {
+    opacity: 0.5;
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 0.2;
+    filter: blur(1px);
+  }
+}
+
+/* Main content area */
+.bleeding-heart-content {
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom scrollbar styles */
+.bleeding-heart-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.bleeding-heart-container::-webkit-scrollbar-track {
+  background: rgba(20, 20, 20, 0.5);
+  border-radius: 4px;
+}
+
+.bleeding-heart-container::-webkit-scrollbar-thumb {
+  background: rgba(74, 0, 0, 0.5);
+  border-radius: 4px;
+  border: 1px solid rgba(33, 33, 33, 0.8);
+}
+
+.bleeding-heart-container::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 20, 20, 0.7);
+}
+
+/* Module title */
+.module-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--parchment);
+  text-shadow: 0 0 10px rgba(74, 0, 0, 0.8);
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* Core state display area */
+.core-state-display {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+/* Central heart visual element */
+.central-heart {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: rgba(33, 33, 33, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  transition: all 0.5s ease;
+}
+
+.central-heart::before {
+  content: '';
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 0, 0, 0.8) 0%, transparent 70%);
+  opacity: 0.7;
+}
+
+.central-heart::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(117, 76, 36, 0.4) 0%, transparent 50%);
+  opacity: 0.5;
+}
+
+.heart-icon {
+  font-size: 4rem;
+  color: var(--blood-red);
+  filter: drop-shadow(0 0 10px rgba(74, 0, 0, 0.8));
+  z-index: 2;
+}
+
+.heart-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(74, 0, 0, 0.6) 0%, transparent 70%);
+  animation: heart-glow 3s infinite alternate;
+  z-index: 1;
+}
+
+.heart-pulse {
+  position: absolute;
+  width: 105%;
+  height: 105%;
+  border-radius: 50%;
+  border: 2px solid rgba(74, 0, 0, 0.3);
+  animation: heart-pulse 2s infinite;
+  z-index: 0;
+}
+
+@keyframes heart-glow {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes heart-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+}
+
+/* Central heart styles based on integrity status */
+.central-heart.stable {
+  background-color: rgba(33, 33, 33, 0.9);
+  box-shadow: 0 0 25px rgba(74, 0, 0, 0.7);
+}
+
+.central-heart.stable .heart-icon {
+  color: #a32e2e;
+  filter: drop-shadow(0 0 15px rgba(74, 0, 0, 0.9));
+}
+
+.central-heart.wavering {
+  background-color: rgba(33, 33, 33, 0.8);
+  box-shadow: 0 0 20px rgba(74, 0, 0, 0.6);
+}
+
+.central-heart.wavering .heart-icon {
+  color: #8e2727;
+  filter: drop-shadow(0 0 10px rgba(74, 0, 0, 0.7));
+}
+
+.central-heart.critical {
+  background-color: rgba(33, 33, 33, 0.7);
+  box-shadow: 0 0 15px rgba(74, 0, 0, 0.5);
+}
+
+.central-heart.critical .heart-icon {
+  color: #6e1f1f;
+  filter: drop-shadow(0 0 5px rgba(74, 0, 0, 0.5));
+  animation: flicker 4s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.8;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.4;
+  }
+}
+
+/* Integrity container */
+.integrity-container, .consciousness-container {
+  width: 90%;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+.state-label {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  color: var(--parchment);
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-text {
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+  color: var(--burned-parchment);
+  text-align: right;
+  margin-top: 0.3rem;
+}
+
+/* Progress bars */
+.progress-bar-container {
+  width: 100%;
+  height: 15px;
+  background-color: rgba(33, 33, 33, 0.8);
+  border: 1px solid var(--iron-gray);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.5s ease;
+}
+
+.integrity-bar {
+  background: linear-gradient(90deg, var(--blood-red), #a32e2e);
+}
+
+.consciousness-bar {
+  background: linear-gradient(90deg, #4a5975, #7284a8);
+}
+
+/* Status colors */
+.stable {
+  color: #a32e2e;
+}
+
+.wavering {
+  color: #b8860b;
+}
+
+.critical {
+  color: #8b0000;
+}
+
+.focused {
+  color: #4682b4;
+}
+
+.disturbed {
+  color: #708090;
+}
+
+.fraying {
+  color: #696969;
+}
+
+/* Feedback message */
+.ritual-feedback {
+  width: 90%;
+  max-width: 500px;
+  padding: 0.8rem;
+  margin: 1rem 0;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  opacity: 0;
+  animation: fade-in 0.3s forwards;
+}
+
+.ritual-feedback.success {
+  background-color: rgba(20, 80, 20, 0.3);
+  border: 1px solid rgba(30, 120, 30, 0.5);
+  color: #98fb98;
+}
+
+.ritual-feedback.error {
+  background-color: rgba(80, 20, 20, 0.3);
+  border: 1px solid rgba(120, 30, 30, 0.5);
+  color: #f08080;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced Threat Indicator with Foresight */
+.threat-indicator {
+  width: 90%;
+  max-width: 500px;
+  padding: 1rem;
+  margin: 1rem 0 2rem;
+  border-radius: 6px;
+  background-color: rgba(33, 33, 33, 0.6);
+  border: 1px solid var(--iron-gray);
+  transition: all 0.3s ease;
+}
+
+.threat-indicator.active {
+  border-color: var(--blood-red);
+  background-color: rgba(74, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(74, 0, 0, 0.3);
+  animation: threat-pulse 2s infinite alternate;
+}
+
+@keyframes threat-pulse {
+  0% {
+    box-shadow: 0 0 15px rgba(74, 0, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(74, 0, 0, 0.6);
+  }
+}
+
+.threat-label {
+  font-family: var(--font-thematic);
+  font-size: 1.1rem;
+  color: var(--parchment);
+  text-align: center;
+  margin: 0;
+}
+
+.threat-effect {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: #dc143c;
+  margin: 0.3rem 0 0;
+  text-align: center;
+  animation: threat-pulse 2s infinite alternate;
+}
+
+.threat-icon {
+  color: #dc143c;
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 0 5px rgba(220, 20, 60, 0.5));
+}
+
+.threat-foresight {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(74, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.threat-foresight-row {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-old-print);
+  font-size: 0.85rem;
+}
+
+.foresight-icon {
+  color: var(--burned-parchment);
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
+  width: 16px;
+}
+
+.foresight-label {
+  color: var(--burned-parchment);
+  margin-right: 0.5rem;
+  min-width: 150px;
+}
+
+.foresight-value {
+  color: var(--parchment);
+  font-weight: bold;
+}
+
+/* Contextual resource display */
+.contextual-resources {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 90%;
+  max-width: 500px;
+}
+
+.contextual-resources .resource-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(33, 33, 33, 0.7);
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: 1px solid var(--iron-gray);
+  min-width: 100px;
+  flex: 1;
+}
+
+.contextual-resources .resource-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.contextual-resources .resource-amount {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--parchment);
+  margin-bottom: 0.2rem;
+}
+
+.contextual-resources .resource-name {
+  font-family: var(--font-old-print);
+  font-size: 0.8rem;
+  color: var(--burned-parchment);
+}
+
+/* Rituals and upgrades areas */
+.section-title {
+  font-family: var(--font-thematic);
+  font-size: 1.5rem;
+  color: var(--rust-orange);
+  margin: 1.5rem 0 1rem;
+  text-align: center;
+  letter-spacing: 1px;
+  position: relative;
+  width: 100%;
+}
+
+.section-title::before,
+.section-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 30px;
+  height: 1px;
+  background-color: var(--rust-orange);
+  opacity: 0.5;
+}
+
+.section-title::before {
+  left: 20%;
+}
+
+.section-title::after {
+  right: 20%;
+}
+
+.rituals-area, .upgrades-area {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Modified: Changed to horizontal layout with flex-wrap */
+.rituals-container, .upgrades-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Set width for ritual buttons and upgrade options within containers */
+.rituals-container .ritual-button {
+  width: calc(50% - 1.5rem);
+  max-width: 450px;
+  margin: 0;
+}
+
+.upgrades-container .upgrade-option {
+  width: calc(50% - 1.5rem);
+  max-width: 450px;
+  margin: 0;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.clickable:hover {
+  color: var(--parchment);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+  .rituals-container .ritual-button,
+  .upgrades-container .upgrade-option,
+  .upgrade-wrapper {
+    width: 100%;
+  }
+  
+  .threat-foresight-row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 0.5rem;
+  }
+  
+  .foresight-label {
+    margin-bottom: 0.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .bleeding-heart-content {
+    padding: 1rem;
+  }
+  
+  .module-title {
+    font-size: 2rem;
+  }
+  
+  .central-heart {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heart-icon {
+    font-size: 3.2rem;
+  }
+  
+  .state-label {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .heart-lore-text {
+    font-size: 0.9rem;
+  }
+  
+  .effect-detailed-stats {
+    flex-direction: column;
+  }
+  
+  .effect-stat-row {
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(60, 60, 60, 0.2);
+    padding-bottom: 0.3rem;
+  }
+  
+  .effect-stat-label {
+    margin-bottom: 0.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contextual-resources {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .contextual-resources .resource-item {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.5rem;
+  }
+  
+  .contextual-resources .resource-icon {
+    margin-bottom: 0;
+    margin-right: 0.5rem;
+  }
+  
+  .contextual-resources .resource-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+/* Global Effects Display */
+.global-effects-display {
+  width: 100%;
+  margin: 1rem 0 2rem;
+  background-color: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(60, 60, 60, 0.6);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.effects-title {
+  font-family: var(--font-thematic);
+  font-size: 1.1rem;
+  color: var(--parchment);
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.effects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.effect-item {
+  display: flex;
+  align-items: flex-start;
+  background-color: var(--dark-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.6rem;
+  transition: all 0.2s ease;
+}
+
+.effect-item.temporary {
+  border-color: var(--active-icon-color);
+  border-width: 2px;
+}
+
+.effect-icon {
+  margin-right: 0.5rem;
+  margin-top: 0.2rem;
+}
+
+.effect-name {
+  font-weight: bold;
+  font-family: var(--font-thematic);
+  margin-right: 0.5rem;
+}
+
+.buff-timer {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.gold-timer {
+  color: #ffc107;
+  font-weight: bold;
+  font-family: var(--font-unsettling);
+  background-color: rgba(10, 10, 10, 0.8);
+  padding: 2px 8px 3px 8px;
+  border-radius: 0px;
+  margin-left: 5px;
+  display: inline-block;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(255, 165, 0, 0.9);
+  border-left: 3px solid #ffc107;
+  border-right: 3px solid #ffc107;
+  border-top: 1px solid rgba(255, 165, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 165, 0, 0.3);
+  font-size: 1rem;
+  transform: skew(-5deg);
+}
+
+.effect-details {
+  flex: 1;
+}
+
+.effect-item.buff {
+  border-left-color: #3cb371;
+  position: relative;
+  overflow: hidden;
+}
+
+.effect-item.debuff {
+  border-left-color: #dc143c;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Remove vertical bar for buffs */
+.effect-item.buff::before,
+.effect-item.debuff::before {
+  display: none !important;
+}
+
+/* Remove background and border from timer */
+.buff-timer.gold-timer {
+  font-family: 'Cormorant Garamond', 'Cinzel', serif !important;
+  background: transparent !important;
+  border: none !important;
+  color: #e0b97a;
+  font-size: 1rem;
+  padding: 0;
+  margin-left: 5px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(110, 31, 31, 0.5);
+  box-shadow: none;
+  font-weight: 600;
+  transform: skew(-5deg);
+}
+
+/* 恢复图标颜色设置 */
+.effect-item.buff .effect-icon {
+  color: #3cb371;
+}
+
+.effect-item.debuff .effect-icon {
+  color: #dc143c;
+}
+
+.effect-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.effect-name {
+  font-family: var(--font-thematic);
+  font-size: 0.95rem;
+  color: var(--parchment);
+  margin-bottom: 0.2rem;
+}
+
+.effect-description {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: rgba(216, 201, 167, 0.8);
+}
+
+.no-effects {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: rgba(216, 201, 167, 0.6);
+  padding: 0.8rem;
+  font-style: italic;
+}
+
+/* Enhanced Global Effects Display */
+.effect-detailed-stats {
+  margin-top: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.effect-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--burned-parchment);
+  padding: 0.1rem 0;
+}
+
+.effect-stat-label {
+  margin-right: 0.5rem;
+}
+
+.effect-stat-value {
+  font-weight: bold;
+}
+
+.effect-stat-value.positive {
+  color: #3cb371;
+}
+
+.effect-stat-value.negative {
+  color: #dc143c;
+}
+
+/* Enhanced Upgrade Display */
+.upgrade-wrapper {
+  position: relative;
+  width: calc(50% - 1.5rem);
+  max-width: 450px;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.upgrade-main {
+  width: 100%;
+}
+
+/* 确保UpgradeOption组件内部的样式不受影响 */
+.upgrade-wrapper .upgrade-option {
+  width: 100%;
+  margin: 0;
+}
+
+.upgrade-additional-info {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: rgba(20, 20, 20, 0.6);
+  border-radius: 4px;
+  border-left: 2px solid var(--rust-orange);
+}
+
+.upgrade-level-indicator {
+  font-family: var(--font-thematic);
+  font-size: 0.9rem;
+  color: var(--parchment);
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.upgrade-lore {
+  font-family: var(--font-old-print);
+  font-size: 0.8rem;
+  color: var(--burned-parchment);
+  font-style: italic;
+  text-align: center;
+  line-height: 1.3;
+}
+
+/* 确保upgrades-container正确布局 */
+.upgrades-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (max-width: 992px) {
+  .rituals-container .ritual-button,
+  .upgrades-container .upgrade-option,
+  .upgrade-wrapper {
+    width: 100%;
+  }
+}
+
+/* LORE Text Area */
+.heart-lore-container {
+  width: 90%;
+  max-width: 800px;
+  margin: 2rem 0 1rem;
+  padding: 1.5rem;
+  background-color: rgba(15, 15, 15, 0.7);
+  border: 1px solid rgba(74, 0, 0, 0.5);
+  border-radius: 6px;
+  position: relative;
+}
+
+.heart-lore-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(74, 0, 0, 0.1) 0%, transparent 100%);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+.heart-lore-text {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--parchment);
+  line-height: 1.6;
+  text-align: center;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.heart-lore-text em {
+  font-style: italic;
+  color: rgba(216, 201, 167, 0.9);
+}
+
+/* Add this to the end of the file */
+.buff-timer {
+  font-weight: 600;
+  color: #f8d05c;
+  margin-left: 4px;
+  font-family: monospace;
+}
+
+.effect-name {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+/* Style for temporary buffs to make them visually distinct */
+.effect-item.buff.temporary {
+  border-left: 3px solid #6e1f1f; /* deep blood red */
+  background: linear-gradient(90deg, rgba(40,0,0,0.7) 0%, rgba(30,20,20,0.6) 100%);
+}
+
+.effect-item.buff::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #2d0a0a, #6e1f1f, #2d0a0a);
+  box-shadow: 0 0 8px rgba(110, 31, 31, 0.5);
+}
+
+.effect-item.debuff.temporary {
+  border-left: 3px solid #3a2323; /* muted dark brown */
+  background: linear-gradient(90deg, rgba(30,10,10,0.7) 0%, rgba(20,20,20,0.6) 100%);
+}
+
+.effect-item.debuff::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3a2323, #8b0000, #3a2323);
+  box-shadow: 0 0 8px rgba(139, 0, 0, 0.3);
+}
+
+/* Restyle the threat timer display */
+.buff-timer.gold-timer {
+  color: #e0b97a; /* muted gold */
+  background: rgba(40, 20, 10, 0.7); /* dark, subtle background */
+  border-radius: 2px;
+  border: 1px solid #6e1f1f; /* deep blood red border */
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  padding: 2px 8px 3px 8px;
+  margin-left: 5px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(110, 31, 31, 0.5);
+  box-shadow: 0 0 4px rgba(40,0,0,0.3);
+  font-weight: 600;
+  transform: skew(-5deg);
+} 

@@ -1,0 +1,133 @@
+/* IntroPage.css - Styling for the landing page */
+
+.intro-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--dark-black);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background effect - adds a subtle texture and blood-like dripping effect */
+.intro-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(74, 0, 0, 0.4) 0%, transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(74, 0, 0, 0.4) 0%, transparent 30%),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="300" viewBox="0 0 100 300"><rect width="100%" height="100%" fill="transparent"/><path d="M30 0 L20 300 M50 0 L55 300 M70 0 L65 300" stroke="rgba(74,0,0,0.2)" stroke-width="1"/></svg>');
+  background-repeat: repeat;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+/* Position all content above the overlay */
+.intro-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Game title styling */
+.game-title {
+  font-family: var(--font-heading);
+  font-size: 5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.1em;
+  z-index: 1;
+  position: relative;
+}
+
+/* Intro text styling */
+.intro-text {
+  font-family: var(--font-accent);
+  font-size: 1.5rem;
+  color: var(--parchment);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  max-width: 800px;
+  line-height: 1.6;
+  z-index: 1;
+  position: relative;
+}
+
+/* New flavor text styling */
+.intro-flavor-text {
+  font-family: var(--font-old-print);
+  font-size: 1.1rem;
+  color: var(--burned-parchment);
+  text-align: center;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+  max-width: 800px;
+  font-style: italic;
+  z-index: 1;
+  position: relative;
+}
+
+.intro-flavor-text p {
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Start button styling */
+.start-button {
+  font-size: 1.5rem;
+  padding: 1rem 3rem;
+  margin-top: 1rem;
+  z-index: 1;
+  position: relative;
+  background-color: var(--blood-red);
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(74, 0, 0, 0.6);
+}
+
+.button-icon {
+  margin-right: 0.8rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 3.5rem;
+  }
+  
+  .intro-text {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+  }
+  
+  .intro-flavor-text {
+    font-size: 0.9rem;
+    padding: 0 1rem;
+  }
+  
+  .start-button {
+    font-size: 1.2rem;
+    padding: 0.8rem 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 2.5rem;
+  }
+  
+  .intro-text {
+    font-size: 1rem;
+  }
+} 

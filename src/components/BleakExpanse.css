@@ -1,0 +1,908 @@
+/* BleakExpanse.css - Styling for the exploration module */
+
+.bleak-expanse-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  color: var(--parchment);
+  position: relative;
+  overflow-y: auto;
+  background-color: rgba(10, 10, 10, 0.9);
+}
+
+/* Module title styling */
+.module-title {
+  font-family: var(--font-thematic);
+  font-size: 2.5rem;
+  text-align: center;
+  color: var(--rust-orange);
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Section headings */
+.section-title {
+  font-family: var(--font-old-print);
+  font-size: 1.5rem;
+  color: var(--parchment);
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--rust-orange);
+  padding-bottom: 5px;
+}
+
+/* Area selection grid */
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Area card styling */
+.area-card {
+  background-color: rgba(33, 33, 33, 0.7);
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.area-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.area-card.selected {
+  background-color: rgba(50, 50, 50, 0.8);
+  transform: translateY(-3px);
+}
+
+.area-card.exploring {
+  cursor: not-allowed;
+}
+
+/* Area icon container */
+.area-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background-color: #555;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Area information styling */
+.area-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.area-name {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  margin: 0;
+  color: var(--parchment);
+}
+
+.area-description {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--burned-parchment);
+  font-style: italic;
+}
+
+.area-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 5px;
+  font-family: var(--font-old-print);
+  font-size: 0.8rem;
+}
+
+.risk-level, .yields-list, .time-value {
+  color: var(--parchment);
+  font-weight: bold;
+}
+
+/* Expedition progress overlay */
+.area-progress-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.exploring-icon {
+  font-size: 2rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.progress-bar-container {
+  width: 80%;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--rust-orange);
+  transition: width 1s linear;
+}
+
+.time-remaining {
+  font-family: var(--font-old-print);
+  font-size: 1.2rem;
+  color: var(--parchment);
+}
+
+/* Dispatch section styling */
+.dispatch-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.status-display {
+  text-align: center;
+  font-family: var(--font-old-print);
+  font-size: 1.1rem;
+  color: var(--burned-parchment);
+  font-style: italic;
+  min-height: 1.5em;
+}
+
+.dispatch-button {
+  padding: 12px 24px;
+  background-color: rgba(74, 0, 0, 0.7);
+  color: var(--parchment);
+  border: 1px solid var(--rust-orange);
+  border-radius: 4px;
+  font-family: var(--font-thematic);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dispatch-button:hover:not(:disabled) {
+  background-color: rgba(120, 20, 20, 0.8);
+  transform: translateY(-2px);
+}
+
+.dispatch-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Results modal styling */
+.results-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.results-modal {
+  width: 90%;
+  max-width: 500px;
+  background-color: rgba(33, 33, 33, 0.95);
+  border: 2px solid var(--rust-orange);
+  border-radius: 5px;
+  padding: 20px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close-results-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--parchment);
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.close-results-button:hover {
+  opacity: 1;
+}
+
+.results-title {
+  font-family: var(--font-thematic);
+  font-size: 1.8rem;
+  text-align: center;
+  color: var(--rust-orange);
+  margin-bottom: 10px;
+}
+
+.results-subtitle {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  text-align: center;
+  color: var(--burned-parchment);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.rewards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.reward-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: rgba(50, 50, 50, 0.5);
+  border-radius: 3px;
+}
+
+.reward-icon {
+  color: #4CAF50;
+  font-size: 1.2rem;
+}
+
+.reward-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.reward-name {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: var(--parchment);
+}
+
+.reward-quantity {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: #FFC107;
+  font-weight: bold;
+}
+
+.claim-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: rgba(74, 0, 0, 0.7);
+  color: var(--parchment);
+  border: 1px solid var(--rust-orange);
+  border-radius: 4px;
+  font-family: var(--font-thematic);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.claim-button:hover {
+  background-color: rgba(120, 20, 20, 0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .module-title {
+    font-size: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .areas-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .area-card {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .area-details {
+    text-align: center;
+  }
+  
+  .area-meta {
+    justify-content: center;
+  }
+}
+
+/* Squad selection section styling */
+.squad-selection-section {
+  margin-bottom: 20px;
+}
+
+.selected-squad-display {
+  background-color: rgba(33, 33, 33, 0.7);
+  border: 1px solid var(--rust-orange);
+  border-radius: 5px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.squad-count {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: var(--parchment);
+}
+
+.squad-members {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.squad-member, .empty-squad-slot {
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.squad-member {
+  background-color: rgba(60, 60, 60, 0.8);
+  border: 1px solid var(--rust-orange);
+}
+
+.squad-member:hover {
+  background-color: rgba(80, 80, 80, 0.9);
+  transform: translateY(-2px);
+}
+
+.squad-member.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.squad-member.disabled:hover {
+  background-color: rgba(60, 60, 60, 0.8);
+  transform: none;
+}
+
+.empty-squad-slot {
+  background-color: rgba(40, 40, 40, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.empty-squad-slot.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.squad-member-icon {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.squad-member-name {
+  font-size: 0.8rem;
+  text-align: center;
+  color: var(--parchment);
+}
+
+.empty-slot-icon {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.edit-squad-button {
+  align-self: center;
+  padding: 8px 16px;
+  background-color: rgba(60, 60, 60, 0.8);
+  color: var(--parchment);
+  border: 1px solid var(--rust-orange);
+  border-radius: 4px;
+  font-family: var(--font-old-print);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-squad-button:hover:not(:disabled) {
+  background-color: rgba(80, 80, 80, 0.9);
+}
+
+.edit-squad-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.squad-power {
+  align-self: center;
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+  color: var(--parchment);
+  margin-top: 5px;
+}
+
+/* Squad selection modal */
+.squad-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.squad-modal {
+  width: 90%;
+  max-width: 800px;
+  background-color: rgba(33, 33, 33, 0.95);
+  border: 2px solid var(--rust-orange);
+  border-radius: 5px;
+  padding: 20px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.squad-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.squad-modal-header h2 {
+  font-family: var(--font-thematic);
+  font-size: 1.5rem;
+  color: var(--rust-orange);
+  margin: 0;
+}
+
+.close-modal-button {
+  background: none;
+  border: none;
+  color: var(--parchment);
+  font-size: 1.2rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.close-modal-button:hover {
+  opacity: 1;
+}
+
+.squad-modal-content {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+.available-mercenaries, .selected-squad {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.available-mercenaries h3, .selected-squad h3 {
+  font-family: var(--font-old-print);
+  font-size: 1.2rem;
+  color: var(--parchment);
+  margin: 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--rust-orange);
+}
+
+.mercenary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 400px;
+  padding-right: 5px;
+}
+
+.mercenary-card {
+  background-color: rgba(40, 40, 40, 0.7);
+  border: 1px solid rgba(100, 100, 100, 0.3);
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mercenary-card:hover {
+  background-color: rgba(60, 60, 60, 0.8);
+  transform: translateY(-2px);
+}
+
+/* Styling for injured mercenaries */
+.mercenary-card.injured {
+  background-color: rgba(40, 40, 40, 0.5);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  opacity: 0.7;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.mercenary-card.injured:hover {
+  background-color: rgba(60, 40, 40, 0.6);
+  transform: none;
+}
+
+.merc-name {
+  font-family: var(--font-thematic);
+  font-size: 1.1rem;
+  color: var(--parchment);
+  margin-bottom: 4px;
+}
+
+.merc-level, .merc-stats, .merc-san, .merc-hp {
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+  color: var(--burned-parchment);
+}
+
+.merc-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+/* Style for HP display */
+.merc-hp {
+  margin-top: 4px;
+}
+
+/* Style for low HP warning */
+.merc-hp.low-hp {
+  color: #ff3333;
+  font-weight: bold;
+}
+
+.injury-warning {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #ff3333;
+}
+
+.squad-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.squad-slot {
+  height: 60px;
+  border-radius: 5px;
+  padding: 10px;
+  position: relative;
+}
+
+.squad-slot.filled {
+  background-color: rgba(70, 70, 70, 0.9);
+  border: 1px solid var(--rust-orange);
+  cursor: pointer;
+}
+
+.squad-slot.empty {
+  background-color: rgba(40, 40, 40, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slot-merc-name {
+  font-family: var(--font-thematic);
+  font-size: 1rem;
+  color: var(--parchment);
+  margin-bottom: 3px;
+}
+
+.slot-merc-level, .slot-merc-power, .slot-merc-hp {
+  font-family: var(--font-old-print);
+  font-size: 0.8rem;
+  color: var(--burned-parchment);
+  margin-bottom: 2px;
+}
+
+.empty-slot-text {
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
+.remove-from-squad {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.squad-slot.filled:hover .remove-from-squad {
+  color: var(--rust-orange);
+}
+
+.squad-total-power {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: var(--parchment);
+  margin: 10px 0;
+  text-align: center;
+}
+
+.confirm-squad-button {
+  padding: 10px 20px;
+  background-color: rgba(60, 0, 0, 0.7);
+  color: var(--parchment);
+  border: 1px solid var(--rust-orange);
+  border-radius: 4px;
+  font-family: var(--font-thematic);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: center;
+}
+
+.confirm-squad-button:hover {
+  background-color: rgba(100, 20, 20, 0.8);
+}
+
+/* Combat results styling */
+.combat-results {
+  background-color: rgba(40, 40, 40, 0.6);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.combat-outcome {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.combat-outcome.victory {
+  color: rgb(100, 180, 100);
+}
+
+.combat-outcome.struggle {
+  color: rgb(220, 180, 80);
+}
+
+.combat-outcome.defeat {
+  color: rgb(200, 80, 80);
+}
+
+.combat-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.power-comparison {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+}
+
+.vs-indicator {
+  font-family: var(--font-thematic);
+  font-style: italic;
+  color: var(--burned-parchment);
+}
+
+.squad-power-result {
+  color: rgb(100, 180, 100);
+}
+
+.enemy-power-result {
+  color: rgb(200, 80, 80);
+}
+
+.combat-margin {
+  font-family: var(--font-old-print);
+  font-size: 0.9rem;
+  color: var(--parchment);
+}
+
+/* Responsive styles for squad selection */
+@media (max-width: 768px) {
+  .squad-modal-content {
+    flex-direction: column;
+  }
+  
+  .mercenary-list {
+    max-height: 200px;
+  }
+}
+
+/* Expedition Summary - new in V2.1 */
+.expedition-summary {
+  margin-bottom: 20px;
+  background-color: rgba(33, 33, 33, 0.7);
+  border: 1px solid var(--rust-orange);
+  border-radius: 5px;
+  padding: 15px;
+}
+
+.expedition-summary h3 {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  color: var(--rust-orange);
+  margin: 0 0 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 5px;
+}
+
+.event-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-item {
+  font-family: var(--font-old-print);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--parchment);
+  display: flex;
+  align-items: center;
+}
+
+.event-item:before {
+  content: '•';
+  color: var(--rust-orange);
+  margin-right: 8px;
+}
+
+.event-item:last-child {
+  border-bottom: none;
+}
+
+/* Combat Outcome - Improved in V2.1 */
+.combat-outcome {
+  background-color: rgba(33, 33, 33, 0.7);
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.combat-outcome h3 {
+  font-family: var(--font-thematic);
+  font-size: 1.2rem;
+  margin: 0 0 10px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.combat-outcome.victory {
+  border-color: #4CAF50;
+}
+
+.combat-outcome.victory h3 {
+  color: #4CAF50;
+}
+
+.combat-outcome.struggle {
+  border-color: #FFC107;
+}
+
+.combat-outcome.struggle h3 {
+  color: #FFC107;
+}
+
+.combat-outcome.defeat {
+  border-color: #F44336;
+}
+
+.combat-outcome.defeat h3 {
+  color: #F44336;
+}
+
+.combat-outcome p {
+  font-family: var(--font-old-print);
+  font-style: italic;
+  color: var(--parchment);
+  margin: 0 0 10px 0;
+}
+
+.combat-details {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(20, 20, 20, 0.6);
+  padding: 10px;
+  border-radius: 3px;
+  font-family: var(--font-monospace);
+  font-size: 0.9rem;
+}
+
+.combat-details div {
+  color: var(--parchment);
+}
+
+/* Squad power display in main UI */
+.squad-power {
+  margin-top: 10px;
+  padding: 8px;
+  background-color: rgba(50, 50, 50, 0.6);
+  border-radius: 3px;
+  font-family: var(--font-monospace);
+  font-size: 0.9rem;
+  color: var(--parchment);
+}
+
+/* Area difficulty display */
+.area-difficulty {
+  font-size: 0.8rem;
+  color: #f5f5dc;
+  margin-top: 4px;
+} 

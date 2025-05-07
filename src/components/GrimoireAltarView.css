@@ -1,0 +1,386 @@
+/* GrimoireAltarView.css - Styling for the central grimoire/altar UI element */
+
+.grimoire-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10; /* Position below the module content but above background */
+}
+
+/* Wallet button container styles */
+.wallet-button-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+/* Wallet error styling */
+.wallet-error {
+  background-color: rgba(74, 0, 0, 0.85);
+  border: 2px solid rgba(255, 76, 76, 0.8);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  color: rgba(255, 201, 167, 0.9);
+  font-family: var(--font-thematic);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 8px rgba(255, 76, 36, 0.5);
+}
+
+/* Styling overrides for Solana wallet adapter button */
+.wallet-multi-button {
+  background-color: rgba(40, 10, 10, 0.85) !important;
+  border: 2px solid rgba(117, 76, 36, 0.8) !important;
+  border-radius: 6px !important;
+  color: rgba(216, 201, 167, 0.9) !important;
+  font-family: var(--font-thematic) !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  box-shadow: 0 0 8px rgba(117, 76, 36, 0.5), 0 0 5px rgba(74, 0, 0, 0.5) !important;
+  transition: all 0.3s ease !important;
+}
+
+.wallet-multi-button:hover {
+  background-color: rgba(74, 0, 0, 0.8) !important;
+  box-shadow: 0 0 12px rgba(117, 76, 36, 0.7), 0 0 8px rgba(74, 0, 0, 0.7) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Main grimoire/altar styling */
+.grimoire-altar {
+  width: 90%;
+  height: 90%;
+  position: relative;
+  background-color: transparent;
+  background-image: url('/assets/home.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 5px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+  overflow: visible; /* 改为visible以确保按钮不被隐藏 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid var(--blood-red);
+  transition: transform 0.5s ease;
+}
+
+/* Hover effect for the grimoire */
+.grimoire-altar:hover {
+  transform: rotateX(5deg) scale(1.02);
+}
+
+/* Left and right pages/surfaces of the grimoire */
+.grimoire-surface {
+  position: absolute;
+  width: 48%;
+  height: 85%;
+  background-color: transparent;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+  transform: perspective(1000px) rotateY(5deg);
+  border: 1px solid var(--rust-orange);
+  display: none;
+}
+
+/* Left page positioning and styling */
+.left-page {
+  left: 2%;
+  transform: perspective(1000px) rotateY(-5deg);
+}
+
+/* Right page positioning and styling */
+.right-page {
+  right: 2%;
+  transform: perspective(1000px) rotateY(5deg);
+}
+
+/* Center emblem/brand symbol */
+.grimoire-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+  display: none;
+}
+
+/* Central brand symbol */
+.brand-symbol {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: var(--blood-red);
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Create the brand mark shape */
+.brand-symbol::before,
+.brand-symbol::after {
+  content: '';
+  position: absolute;
+  background-color: var(--dark-black);
+}
+
+.brand-symbol::before {
+  width: 4px;
+  height: 60%;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.brand-symbol::after {
+  width: 60%;
+  height: 4px;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
+}
+
+/* Title area for the grimoire */
+.grimoire-title {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 6;
+}
+
+.grimoire-title h2 {
+  font-family: var(--font-thematic);
+  font-size: 2rem;
+  color: var(--rust-orange);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.grimoire-title p {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: var(--parchment);
+  font-style: italic;
+}
+
+/* Interaction points container */
+.interaction-points {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Individual interaction point styling */
+.interaction-point {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(74, 0, 0, 0.2);
+  border: 2px solid var(--rust-orange);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Positioning of interaction points */
+.interaction-point[data-module="bastion"] {
+  top: 20%;
+  left: 10%;
+}
+
+.interaction-point[data-module="ironbound"] {
+  top: 20%;
+  right: 10%;
+}
+
+.interaction-point[data-module="expanse"] {
+  bottom: 20%;
+  left: 10%;
+}
+
+.interaction-point[data-module="anvil"] {
+  bottom: 20%;
+  right: 10%;
+}
+
+/* Hover effect for interaction points */
+.interaction-point:hover {
+  transform: scale(1.2);
+  background-color: rgba(74, 0, 0, 0.5);
+  box-shadow: 0 0 15px rgba(74, 0, 0, 0.7);
+}
+
+/* Point icons (placeholder styling) */
+.point-icon {
+  width: 20px;
+  height: 20px;
+  background-color: var(--rust-orange);
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Different shapes for different module icons */
+.bastion-icon {
+  /* Castle/tower shape */
+  clip-path: polygon(50% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.ironbound-icon {
+  /* Shield shape */
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.expanse-icon {
+  /* Mountain/landscape shape */
+  clip-path: polygon(0% 100%, 30% 40%, 50% 70%, 70% 30%, 100% 100%);
+}
+
+.anvil-icon {
+  /* Anvil shape */
+  clip-path: polygon(20% 0%, 80% 0%, 100% 60%, 80% 100%, 20% 100%, 0% 60%);
+}
+
+/* Content area for module-specific displays */
+.grimoire-content-area {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  /* Initially empty, will be styled based on active module */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .grimoire-altar {
+    width: 95%;
+    height: 80%;
+  }
+  
+  .grimoire-center {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .grimoire-title h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grimoire-center {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .grimoire-title h2 {
+    font-size: 1.2rem;
+  }
+  
+  .grimoire-title p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Player profile button styles */
+.player-profile-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(40, 10, 10, 0.85);
+  border: 2px solid rgba(117, 76, 36, 0.8);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease;
+  z-index: 9999;
+  box-shadow: 0 0 8px rgba(117, 76, 36, 0.5), 0 0 5px rgba(74, 0, 0, 0.5);
+  text-align: center;
+}
+
+.player-profile-button:hover {
+  background-color: rgba(74, 0, 0, 0.8);
+  box-shadow: 0 0 12px rgba(117, 76, 36, 0.7), 0 0 8px rgba(74, 0, 0, 0.7);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.profile-button-icon {
+  font-size: 2rem;
+  color: rgba(216, 201, 167, 0.9);
+  margin-bottom: 4px;
+  filter: none;
+}
+
+.profile-button-text {
+  font-family: var(--font-thematic);
+  font-size: 0.8rem;
+  color: rgba(117, 76, 36, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: normal;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+/* Add after .player-profile-button:hover styles */
+
+.player-profile-button.connecting {
+  background-color: rgba(60, 30, 30, 0.6);
+  cursor: wait;
+  animation: subtle-pulse 1.5s infinite;
+}
+
+.player-profile-button.connecting:hover {
+  transform: none;
+  box-shadow: 0 0 15px rgba(74, 0, 0, 0.5);
+}
+
+.connecting-icon {
+  color: var(--rust-orange);
+}
+
+@keyframes subtle-pulse {
+  0% {
+    box-shadow: 0 0 15px rgba(74, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(117, 76, 36, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(74, 0, 0, 0.5);
+  }
+} 

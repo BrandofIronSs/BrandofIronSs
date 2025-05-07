@@ -1,0 +1,103 @@
+/* DevTools.css - Styling for developer tools */
+
+.dev-tools-container {
+  margin: 20px auto;
+  padding: 15px;
+  background-color: rgba(180, 0, 0, 0.8);
+  border: 3px solid #ff6b6b;
+  border-radius: 5px;
+  position: relative;
+  z-index: 1000;
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+  max-width: 90%;
+}
+
+.dev-tools-title {
+  font-family: var(--font-old-print);
+  font-size: 1rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px dashed #ffffff;
+  font-weight: bold;
+  text-shadow: 0 0 5px black;
+}
+
+.dev-tools-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.dev-tools-button {
+  background-color: #333333;
+  color: #ffffff;
+  border: 2px solid #ffd700;
+  border-radius: 3px;
+  padding: 8px 5px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+.dev-tools-button:hover {
+  background-color: #4a0000;
+  transform: scale(1.05);
+}
+
+.dev-tools-button:last-child {
+  grid-column: span 2;
+  margin-top: 10px;
+  background-color: #2d4a22;
+  border-color: #4CAF50;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.dev-tools-button:last-child:hover {
+  background-color: #3e682f;
+}
+
+.exploration-button {
+  grid-column: span 2;
+  margin-top: 10px;
+  background-color: #2d4a22 !important;
+  border-color: #4CAF50 !important;
+  padding: 10px !important;
+  font-size: 1rem !important;
+}
+
+.exploration-button:hover {
+  background-color: #3e682f !important;
+}
+
+.dev-tools-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #333333 !important;
+  border-color: #666666 !important;
+}
+
+.dev-tools-section-title {
+  grid-column: span 2;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  border-bottom: 1px dashed #ffffff;
+  padding-bottom: 5px;
+}
+
+.material-button {
+  background-color: #2a2a42;
+  border-color: #6b77ff;
+}
+
+.material-button:hover {
+  background-color: #383860;
+} 

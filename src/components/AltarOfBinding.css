@@ -1,0 +1,395 @@
+/* Altar of Binding Component Styling */
+
+.altar-of-binding-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #e0e0e0;
+  padding: 20px;
+  background-color: #1a1a1a;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Mystical background with subtle animated glow */
+.altar-of-binding-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(64, 0, 64, 0.2) 0%, rgba(16, 0, 32, 0.4) 70%, rgba(8, 0, 16, 0.6) 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Header styling */
+.altar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.altar-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #d0a0ff;
+  text-shadow: 0 0 10px rgba(208, 160, 255, 0.5), 0 0 20px rgba(128, 0, 128, 0.3);
+  margin: 0;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 2px;
+}
+
+/* Main content layout */
+.altar-content {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Recipe list section */
+.recipes-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(20, 10, 30, 0.7);
+  border-radius: 8px;
+  border: 1px solid #4b2d73;
+  box-shadow: 0 0 15px rgba(76, 0, 153, 0.3);
+  overflow: hidden;
+}
+
+.recipes-header {
+  padding: 10px 15px;
+  background-color: #2a1646;
+  border-bottom: 1px solid #4b2d73;
+}
+
+.recipes-title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #b69df8;
+  font-weight: bold;
+}
+
+.recipes-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  align-content: start;
+}
+
+/* Custom scrollbar for the recipes list */
+.recipes-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recipes-list::-webkit-scrollbar-track {
+  background: rgba(30, 15, 40, 0.5);
+  border-radius: 4px;
+}
+
+.recipes-list::-webkit-scrollbar-thumb {
+  background: #4b2d73;
+  border-radius: 4px;
+}
+
+.recipes-list::-webkit-scrollbar-thumb:hover {
+  background: #6a3fad;
+}
+
+/* Recipe card styling */
+.recipe-card {
+  background-color: rgba(40, 20, 60, 0.8);
+  border-radius: 8px;
+  border: 1px solid #4b2d73;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Remove the pseudo-element approach and simplify hover effects */
+.recipe-card:hover {
+  background-color: rgba(50, 25, 75, 0.8);
+  box-shadow: 0 5px 15px rgba(76, 0, 153, 0.4);
+}
+
+/* Make sure child elements don't have hover effects that might conflict */
+.recipe-card * {
+  pointer-events: none;
+}
+
+/* But allow the button to receive hover events */
+.recipe-card .transmute-btn {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.recipe-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.recipe-icon {
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(76, 0, 153, 0.2);
+  border-radius: 50%;
+  border: 1px solid #6a3fad;
+}
+
+.recipe-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #d0a0ff;
+  margin: 0;
+}
+
+.recipe-materials {
+  margin-bottom: 10px;
+}
+
+.materials-label {
+  font-size: 0.9rem;
+  color: #b69df8;
+  margin-bottom: 5px;
+}
+
+.material-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.material-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(75, 45, 115, 0.3);
+}
+
+.material-item:last-child {
+  border-bottom: none;
+}
+
+.material-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.material-icon {
+  font-size: 1.2rem;
+}
+
+.material-quantity {
+  font-size: 0.9rem;
+}
+
+.sufficient {
+  color: #72d672;
+}
+
+.insufficient {
+  color: #ff7272;
+}
+
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 8px;
+  background-color: rgba(60, 30, 90, 0.3);
+  border-radius: 4px;
+}
+
+.processing-time {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: #b69df8;
+}
+
+.transmute-btn {
+  margin-top: auto;
+  padding: 10px 15px;
+  background: linear-gradient(135deg, #6a3fad 0%, #4b2d73 100%);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.transmute-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #7a4fbd 0%, #5b3d83 100%);
+}
+
+/* Remove the transform that might be causing jitter */
+.transmute-btn:active:not(:disabled) {
+  top: 1px;
+}
+
+.transmute-btn:disabled {
+  background: linear-gradient(135deg, #4a2f7d 0%, #2b1d43 100%);
+  color: #8f8f8f;
+  cursor: not-allowed;
+}
+
+/* Queue section styling */
+.queue-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(20, 10, 30, 0.7);
+  border-radius: 8px;
+  border: 1px solid #4b2d73;
+  box-shadow: 0 0 15px rgba(76, 0, 153, 0.3);
+  overflow: hidden;
+}
+
+.queue-header {
+  padding: 10px 15px;
+  background-color: #2a1646;
+  border-bottom: 1px solid #4b2d73;
+}
+
+.queue-title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #b69df8;
+  font-weight: bold;
+}
+
+.queue-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Custom scrollbar for the queue list */
+.queue-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.queue-list::-webkit-scrollbar-track {
+  background: rgba(30, 15, 40, 0.5);
+  border-radius: 4px;
+}
+
+.queue-list::-webkit-scrollbar-thumb {
+  background: #4b2d73;
+  border-radius: 4px;
+}
+
+.queue-list::-webkit-scrollbar-thumb:hover {
+  background: #6a3fad;
+}
+
+/* Queue item styling */
+.queue-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(40, 20, 60, 0.6);
+  border-radius: 6px;
+  border: 1px solid #4b2d73;
+}
+
+.queue-item-icon {
+  font-size: 1.6rem;
+  margin-right: 15px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(76, 0, 153, 0.2);
+  border-radius: 50%;
+  border: 1px solid #6a3fad;
+}
+
+.queue-item-details {
+  flex: 1;
+}
+
+.queue-item-name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #d0a0ff;
+  margin: 0 0 5px 0;
+}
+
+.queue-progress-container {
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.queue-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #6a3fad 0%, #b69df8 100%);
+  transition: width 1s linear;
+}
+
+.queue-item-time {
+  font-size: 0.9rem;
+  color: #b69df8;
+  text-align: right;
+}
+
+/* Empty state messaging */
+.empty-recipes, .empty-queue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  text-align: center;
+  height: 100%;
+  color: #8f8f8f;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  opacity: 0.4;
+}
+
+.empty-text {
+  font-size: 1.1rem;
+  opacity: 0.7;
+} 

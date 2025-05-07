@@ -1,0 +1,131 @@
+/* ModuleNavButton.css - Styling for the module navigation buttons */
+
+.module-nav-button {
+  position: absolute; /* Position is set via style prop */
+  width: 120px;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s ease, filter 0.3s ease;
+  -webkit-user-select: none;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.module-nav-button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+
+.module-nav-button.active {
+  filter: brightness(1.5) sepia(0.3);
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background-color: rgba(33, 33, 33, 0.85);
+  border: 2px solid #4a0000;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 
+              inset 0 0 5px rgba(117, 76, 36, 0.5);
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: #212121;
+  border-radius: 50%;
+  border: 2px solid #754c24;
+  margin-bottom: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.icon-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(74, 0, 0, 0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.nav-icon {
+  color: #b5936e;
+  font-size: 1.5rem;
+  filter: drop-shadow(0 0 2px rgba(179, 96, 96, 0.8));
+}
+
+.module-name {
+  color: #b5936e;
+  font-size: 0.85rem;
+  font-family: var(--font-thematic);
+  text-align: center;
+  margin-top: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  max-width: 100px;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+}
+
+.button-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(74, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.module-nav-button:hover .button-pulse {
+  opacity: 1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* Media query for smaller screens */
+@media (max-width: 1200px) {
+  .module-nav-button {
+    width: 100px;
+  }
+  
+  .icon-container {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .nav-icon {
+    font-size: 1.2rem;
+  }
+  
+  .module-name {
+    font-size: 0.75rem;
+    max-width: 80px;
+  }
+} 
