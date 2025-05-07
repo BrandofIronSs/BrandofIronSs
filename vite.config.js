@@ -4,6 +4,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/BrandofIronSs/', // Set base path for GitHub Pages deployment
   plugins: [
     react(),
     nodePolyfills({
